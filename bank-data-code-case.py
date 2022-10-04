@@ -14,7 +14,7 @@ print(rs_dict)
 #Writing a function to help you
 """In this exercise, you will create a function to house the code you wrote earlier to make things easier and much more concise. Why? This way, you only need to call the function and supply the appropriate lists to create your dictionaries! Again, the lists feature_names and row_vals are preloaded and these contain the header names of the dataset and actual values of a row from the dataset, respectively.
 
-Instructions
+--Instructions
 100 XP
 Define the function lists2dict() with two parameters: first is list1 and second is list2.
 Return the resulting dictionary rs_dict in lists2dict().
@@ -78,8 +78,19 @@ The lists2dict() function, feature_names list, and row_lists list have been prel
 
 Go for it!
 
-Instructions
+--Instructions
 100 XP
 To use the DataFrame() function you need, first import the pandas package with the alias pd.
 Create a DataFrame from the list of dictionaries in list_of_dicts by calling pd.DataFrame(). Assign the resulting DataFrame to df.
 Inspect the contents of df printing the head of the DataFrame. Head of the DataFrame df can be accessed by calling df.head()."""
+# Import the pandas package
+import pandas as pd
+
+# Turn list of lists into list of dicts: list_of_dicts
+list_of_dicts = [lists2dict(feature_names, sublist) for sublist in row_lists]
+
+# Turn list of dicts into a DataFrame: df
+df = pd.DataFrame(list_of_dicts)
+
+# Print the head of the DataFrame
+print(df.head())
