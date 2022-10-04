@@ -205,7 +205,7 @@ however, you won't process just 1000 rows of data, you'll process the entire dat
 
 The generator function read_large_file() and the csv file 'world_dev_ind.csv' are preloaded and ready for your use. Go for it!
 
-Instructions
+--Instructions
 100 XP
 Bind the file 'world_dev_ind.csv' to file in the context manager with open().
 Complete the for loop so that it iterates over the generator from the call to read_large_file() to process all the rows of the file."""
@@ -228,3 +228,80 @@ with open("world_dev_ind.csv") as file:
 
 # Print            
 print(counts_dict)
+#-------------------------------------------------------------------------------#
+#Writing an iterator to load data in chunks (1) pandas
+"""Another way to read data too large to store in memory in chunks is to read the file in as DataFrames of a certain length, say, 100. For example, with the pandas package (imported as pd), you can do pd.read_csv(filename, chunksize=100). This creates an iterable reader object, which means that you can use next() on it.
+
+In this exercise, you will read a file in small DataFrame chunks with read_csv(). You're going to use the World Bank Indicators data 'ind_pop.csv', available in your current directory, to look at the urban population indicator for numerous countries and years.
+
+--Instructions
+100 XP
+Use pd.read_csv() to read in 'ind_pop.csv' in chunks of size 10. Assign the result to df_reader.
+Print the first two chunks from df_reader."""
+# Import the pandas package
+import pandas as pd
+
+# Initialize reader object: df_reader
+df_reader = pd.read_csv("ind_pop.csv", chunksize= 10)
+
+# Print two chunks
+print(next(df_reader))
+print(next(df_reader))
+"""output:
+                                 CountryName CountryCode                  IndicatorName      IndicatorCode  Year   Value
+0                                 Arab World         ARB  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  31.285
+1                     Caribbean small states         CSS  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  31.597
+2             Central Europe and the Baltics         CEB  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  44.508
+3    East Asia & Pacific (all income levels)         EAS  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  22.471
+4      East Asia & Pacific (developing only)         EAP  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  16.918
+5                                  Euro area         EMU  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  62.097
+6  Europe & Central Asia (all income levels)         ECS  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  55.379
+7    Europe & Central Asia (developing only)         ECA  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  38.066
+8                             European Union         EUU  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  61.213
+9   Fragile and conflict affected situations         FCS  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  17.892
+                                      CountryName CountryCode                  IndicatorName      IndicatorCode  Year   Value
+10         Heavily indebted poor countries (HIPC)         HPC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  12.236
+11                                    High income         HIC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  62.680
+12                           High income: nonOECD         NOC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  56.108
+13                              High income: OECD         OEC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  64.285
+14  Latin America & Caribbean (all income levels)         LCN  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  49.285
+15    Latin America & Caribbean (developing only)         LAC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  44.863
+16   Least developed countries: UN classification         LDC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960   9.616
+17                            Low & middle income         LMY  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  21.273
+18                                     Low income         LIC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  11.498
+19                            Lower middle income         LMC  Urban population (% of total)  SP.URB.TOTL.IN.ZS  1960  19.811"""
+#---------------------------------------------------------------------------------------------------------------------------#
+#Writing an iterator to load data in chunks (2)
+"""
+In the previous exercise, you used read_csv() to read in DataFrame chunks from a large dataset. In this exercise, you will read in a file using a bigger DataFrame chunk size and then process the data from the first chunk.
+
+To process the data, you will create another DataFrame composed of only the rows from a specific country. You will then zip together two of the columns from the new DataFrame, 'Total Population' and 'Urban population (% of total)'. Finally, you will create a list of tuples from the zip object, where each tuple is composed of a value from each of the two columns mentioned.
+
+You're going to use the data from 'ind_pop_data.csv', available in your current directory. pandas has been imported as pd.
+
+Instructions
+100 XP
+Use pd.read_csv() to read in the file in 'ind_pop_data.csv' in chunks of size 1000. Assign the result to urb_pop_reader.
+Get the first DataFrame chunk from the iterable urb_pop_reader and assign this to df_urb_pop.
+Select only the rows of df_urb_pop that have a 'CountryCode' of 'CEB'. To do this, compare whether df_urb_pop['CountryCode'] is equal to 'CEB' within the square brackets in df_urb_pop[____].
+Using zip(), zip together the 'Total Population' and 'Urban population (% of total)' columns of df_pop_ceb. Assign the resulting zip object to pops."""
+# Initialize reader object: urb_pop_reader
+urb_pop_reader = pd.read_csv("ind_pop_data.csv", chunksize= 1000)
+
+# Get the first DataFrame chunk: df_urb_pop
+df_urb_pop = next(urb_pop_reader)
+
+# Check out the head of the DataFrame
+print(df_urb_pop.head())
+
+# Check out specific country: df_pop_ceb
+df_pop_ceb = df_urb_pop[df_urb_pop['CountryCode'] == 'CEB']
+
+# Zip DataFrame columns of interest: pops
+pops = zip("Total Population", "Urban population (% of total)")
+
+# Turn zip object into list: pops_list
+pops_list = list(pops)
+
+# Print pops_list
+print(pops_list)
