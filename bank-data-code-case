@@ -21,7 +21,7 @@ Return the resulting dictionary rs_dict in lists2dict().
 Call the lists2dict() function with the arguments feature_names and row_vals. Assign the result of the function call to rs_fxn."""
 
 # Define lists2dict()
-def list2dict(list1, list2):
+def lists2dict(list1, list2):
     """Return a dictionary where list1 provides
     the keys and list2 provides the values."""
 
@@ -35,7 +35,7 @@ def list2dict(list1, list2):
     return rs_dict
 
 # Call lists2dict: rs_fxn
-rs_fxn = list2dict(feature_names, row_vals)
+rs_fxn = lists2dict(feature_names, row_vals)
 
 # Print rs_fxn
 print(rs_fxn)
