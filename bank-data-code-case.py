@@ -1,9 +1,3 @@
----
-title: Python Data Science Toolbox (Part 2)
-tags: python
-url:
----
-
 #Dictionaries for data science
 """Create a zip object by calling zip() and passing to it feature_names and row_vals. Assign the result to zipped_lists.
 Create a dictionary from the zipped_lists zip object by calling dict() with zipped_lists. Assign the resulting dictionary to rs_dict."""
